@@ -85,6 +85,38 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollObserver.observe(el);
     });
 
-    // Removed the Three.js block entirely, as the visual is replaced by CSS/SVG flowing paths 
+    /* =========================================================
+       Hero 3D Parallax Effect
+       ========================================================= */
+    const scene = document.getElementById('scene');
+    const parallaxLayer = document.querySelector('.parallax-layer');
+
+    if (scene && parallaxLayer) {
+        // Only run on desktop where hover makes sense
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+            scene.addEventListener('mousemove', (e) => {
+                const rect = scene.getBoundingClientRect();
+
+                // Calculate mouse position relative to center of the container (-1 to 1)
+                const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+                const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+
+                // Subtle rotation and translation multipliers
+                const depth = parseFloat(parallaxLayer.getAttribute('data-depth')) || 0.15;
+                const rotateX = -y * depth * 15; // Max degrees of rotation
+                const rotateY = x * depth * 15;
+                const translateX = x * depth * 30; // Max px of movement
+                const translateY = y * depth * 30;
+
+                // Apply spatial transformation
+                parallaxLayer.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            // Smoothly snap back to origin on mouse exit
+            scene.addEventListener('mouseleave', () => {
+                parallaxLayer.style.transform = `translate3d(0, 0, 0) rotateX(0) rotateY(0)`;
+            });
+        }
+    }
 
 });
