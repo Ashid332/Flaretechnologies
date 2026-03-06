@@ -1297,80 +1297,139 @@ p {
     background: var(--bg-base);
 }
 
-.cta-container {
+.dual-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
     background: var(--bg-secondary);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
-    padding: 6rem 2rem;
-    text-align: center;
+    padding: 6rem 4rem;
     position: relative;
     overflow: hidden;
 }
 
-.cta-glow-gradient {
+.cta-glow-bg {
     position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
     width: 600px;
-    height: 300px;
-    background: var(--infinity-gradient);
-    opacity: 0.1;
-    filter: blur(80px);
+    height: 600px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, transparent 70%);
     pointer-events: none;
+    z-index: 0;
 }
 
-.cta-container h2 {
+.cta-content {
+    position: relative;
+    z-index: 2;
+    text-align: left;
+}
+
+.cta-content h2 {
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
 }
 
-.cta-container p {
-    font-size: 1.25rem;
+.cta-content p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
     margin-bottom: 3rem;
+    max-width: 500px;
+    line-height: 1.6;
 }
 
+.cta-buttons-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.cta-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cta-ai-network {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.2));
+}
+
+@keyframes dashPulse {
+    0% {
+        stroke-dashoffset: 200;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.active-flow {
+    animation: dashPulse 3s linear infinite;
+}
+
+.net-node {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.net-node:hover {
+    filter: drop-shadow(0 0 15px currentColor) brightness(1.5);
+}
+
+.core {
+    animation: pulse 4s infinite alternate;
+}
 
 /* --- FOOTER --- */
 .footer {
     border-top: 1px solid var(--border-subtle);
-    padding: 4rem 0 2rem;
+    padding: 5rem 0 2rem;
     background: var(--bg-base);
 }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 3rem;
     margin-bottom: 4rem;
 }
 
 .footer-desc {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-}
-
-.footer-links {
-    display: contents;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 320px;
 }
 
 .link-group h4 {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-primary);
     margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .link-group a {
     display: block;
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-    transition: color 0.2s;
+    font-size: 0.95rem;
+    margin-bottom: 0.85rem;
+    transition: color 0.3s;
 }
 
 .link-group a:hover {
-    color: var(--text-primary);
+    color: #00D4FF;
 }
 
 .footer-bottom {
@@ -1379,7 +1438,7 @@ p {
     align-items: center;
     padding-top: 2rem;
     border-top: 1px solid var(--border-subtle);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
 }
 
@@ -1391,6 +1450,7 @@ p {
 .legal-links a {
     color: var(--text-secondary);
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .legal-links a:hover {
@@ -1547,6 +1607,10 @@ p {
     .results-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 768px) {
@@ -1600,14 +1664,39 @@ p {
         grid-template-columns: 1fr;
     }
 
-    .cta-container h2 {
-        font-size: 2.2rem;
+    .dual-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .cta-content h2 {
+        font-size: 2.5rem;
+    }
+
+    .cta-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons-row {
+        flex-direction: column;
+    }
+
+    .cta-visual {
+        order: -1;
     }
 
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
         text-align: center;
+    }
+
+    .footer-desc {
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .footer-bottom {
