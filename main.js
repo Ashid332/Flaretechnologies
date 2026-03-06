@@ -23,13 +23,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Hide Header on Scroll Down, Show on Scroll Up
+    // Scroll Effects for Transparent-to-Solid Header
     let lastScroll = 0;
+
+    // Check initial scroll position on load
+    if (window.pageYOffset > 50) {
+        header.classList.add('scrolled');
+    }
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
+
+        // Add blurred background when scrolling down past top
+        if (currentScroll > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+
+        // Hide nav logic (optional, keeping for UX)
         if (currentScroll <= 0) {
             header.classList.remove('hide-nav');
-        } else if (currentScroll > lastScroll && currentScroll > 100) {
+        } else if (currentScroll > lastScroll && currentScroll > 150) {
             // scrolling down
             header.classList.add('hide-nav');
             // close mobile menu if scrolling
