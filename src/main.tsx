@@ -1,86 +1,81 @@
-import { StrictMode, useState, useEffect } from 'react'
+import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+
+// UI Components
 import Hero from "@/components/ui/animated-shader-hero"
 import ConsultationModal from "@/components/ui/consultation-modal"
+
+// Brand Components
+import Navbar from "@/components/Navbar"
+import Philosophy from "@/components/Philosophy"
+import Services from "@/components/Services"
+import GrowthStack from "@/components/GrowthStack"
+import WhyFlare from "@/components/WhyFlare"
+import Methodology from "@/components/Methodology"
+import Results from "@/components/Results"
+import Contact from "@/components/Contact"
+import Footer from "@/components/Footer"
+import Chatbot from "@/components/Chatbot"
 
 function App() {
   const [isConsultationModalOpen, setConsultationModalOpen] = useState(false);
 
-  useEffect(() => {
-    const handleOpenModal = (e: Event) => {
-      e.preventDefault();
-      setConsultationModalOpen(true);
-    };
-
-    // Find all vanilla buttons and links that should trigger the modal
-    const elements = document.querySelectorAll('a, button');
-    const targetTexts = [
-      'Book Consultation',
-      'Book Free Consultation',
-      'Request Audit',
-      'Request Strategy Audit',
-      'Get My Free Strategy Audit',
-      'Contact'
-    ];
-
-    const triggers: Element[] = [];
-
-    elements.forEach(el => {
-      const text = el.textContent?.trim() || '';
-      const href = el.getAttribute('href');
-
-      const isTargetText = targetTexts.some(t => text.includes(t));
-      const isContactLink = href === '#contact';
-
-      if (isTargetText || isContactLink) {
-        el.addEventListener('click', handleOpenModal);
-        triggers.push(el);
-      }
-    });
-
-    return () => {
-      triggers.forEach(el => el.removeEventListener('click', handleOpenModal));
-    };
-  }, []);
+  const openModal = () => setConsultationModalOpen(true);
+  const closeModal = () => setConsultationModalOpen(false);
 
   return (
     <>
-      <Hero
-        trustBadge={{
-          text: "AI-Driven Systems for Modern Businesses",
-          icons: ["⚡"]
-        }}
-        headline={{
-          line1: "AI-powered",
-          line2: "business ecosystem"
-        }}
-        subtitle="AI automation, development, cloud infrastructure, and digital growth systems"
-        buttons={{
-          primary: {
-            text: "Book Consultation",
-            onClick: () => {
-              setConsultationModalOpen(true);
+      <Navbar onOpenModal={openModal} />
+
+      <main>
+        <Hero
+          trustBadge={{
+            text: "AI-Driven Systems for Modern Businesses",
+            icons: ["⚡"]
+          }}
+          headline={{
+            line1: "AI-powered",
+            line2: "business ecosystem"
+          }}
+          subtitle="AI automation, development, cloud infrastructure, and digital growth systems"
+          buttons={{
+            primary: {
+              text: "Book Consultation",
+              onClick: openModal
+            },
+            secondary: {
+              text: "Request Strategy Audit",
+              onClick: openModal
             }
-          },
-          secondary: {
-            text: "Request Strategy Audit",
-            onClick: () => {
-              setConsultationModalOpen(true);
-            }
-          }
-        }}
-      />
+          }}
+        />
+
+        <Philosophy />
+        <Services />
+        <GrowthStack />
+        <WhyFlare />
+        <Methodology />
+        <Results />
+        <Contact onOpenModal={openModal} />
+      </main>
+
+      <Footer />
+      <Chatbot />
+
       <ConsultationModal
         isOpen={isConsultationModalOpen}
-        onClose={() => setConsultationModalOpen(false)}
+        onClose={closeModal}
       />
     </>
   );
 }
 
-createRoot(document.getElementById('react-hero-root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const rootElement = document.getElementById('react-root');
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}
