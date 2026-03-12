@@ -109,7 +109,7 @@ const Services: React.FC = () => {
                                 <img
                                     src={flareLogo}
                                     alt="Flare Technologies Logo"
-                                    className="w-10 h-10 object-contain mx-auto mb-2"
+                                    className="w-20 h-20 object-contain mx-auto mb-2"
                                 />
                             </div>
                             <h3>Flare Intelligence Platform</h3>
